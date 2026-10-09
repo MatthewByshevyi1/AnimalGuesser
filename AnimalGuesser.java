@@ -37,26 +37,27 @@ public class AnimalGuesser {
                 String guess = inputScanner.nextLine().trim().toUpperCase();
 
                 if (guess.startsWith(letter)) {
-                    if (animals.contains(guess)) {
-                        guessedAnimals.add(guess);
-                        System.out.println("\nCorrect! " + guess + " is an animal that starts with " + letter + ".\n");
-                    } else {
-                        System.out.println("\nIncorrect. " + guess + " is not an animal that starts with " + letter + ".");
-                        System.out.println("You guessed " + guessedAnimals.size() + " correct animals that start with " + letter + ".\n");
 
-                        System.out.println("Do you want to play again? (yes/no)");
-                        String response = inputScanner.nextLine().trim().toLowerCase();
-                        if (response.equals("no") || response.equals("n")) {
-                            continueGuessing = false;
-                            System.out.println("\nThanks for playing!");
-                            break;
-                        } else if (response.equals("yes") || response.equals("y")) {
-                            break;
-                        } else {
-                            System.out.println("\nInvalid response. Exiting the game.");
-                            continueGuessing = false;
+                    if (!guessedAnimals.contains(guess)) {
+
+                        if (animals.contains(guess)) {
+                            guessedAnimals.add(guess);
+                            System.out.println("\nCorrect! " + guess + " is an animal that starts with " + letter + ".\n");
+                        } 
+                        else {
+                            System.out.println("\nIncorrect. " + guess + " is not an animal that starts with " + letter + ".");
+                            System.out.println("You guessed " + guessedAnimals.size() + " correct animals that start with " + letter + ".\n");
+
+                            continueGuessing = keepGuessing(inputScanner);
                             break;
                         }
+                    }
+                    else {
+                        System.out.println("\nYou have already guessed the animal " + guess + ".");
+                        System.out.println("You guessed " + guessedAnimals.size() + " correct animals that start with " + letter + ".\n");
+                        
+                        continueGuessing = keepGuessing(inputScanner);
+                        break;
                     }
                 } else {
                     System.out.println("\nYou guessed " + guessedAnimals.size() + " correct animals that start with " + letter + ".\n");
@@ -65,7 +66,28 @@ public class AnimalGuesser {
                     break;
                 }
             }
-        inputScanner.close();
         }
+        inputScanner.close();
+    }
+
+    public static boolean keepGuessing(Scanner sc) {
+        System.out.println("Do you want to play again? (yes/no)");
+        String response = sc.nextLine().trim().toLowerCase();
+
+        boolean continueGuessing = true;
+        
+        if (response.equals("no") || response.equals("n")) {
+            continueGuessing = false;
+            System.out.println("\nThanks for playing!");
+        } 
+        else if (response.equals("yes") || response.equals("y")) {
+
+        }
+        else {
+            System.out.println("\nInvalid response. Exiting the game.");
+            continueGuessing = false;
+        }
+
+        return continueGuessing;
     }
 }
